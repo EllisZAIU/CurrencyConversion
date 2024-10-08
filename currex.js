@@ -188,12 +188,26 @@ const exchangeRates = {
 };
 
 /* Your solution goes here */
+// Perform conversion
+function convertCurrency() {   
+  let usDollars = parseFloat($("#usdInput").val());
+  let selectedOption = $("#toCurrency option:selected").val();
+
+  $("#resultLabel").text(allCurrencies[selectedOption] + ' (' + selectedOption + '):');
+
+  // Perform conversion
+  let convRate = exchangeRates.rates[selectedOption];
+  let result = usDollars * convRate;
+   
+  $("#resultCurrency").val(result.toFixed(2));
+}
+
 
 function updateCurrencyDropdown() {
-  let selectHTML = '<option value="" disabled selected> Select Currency</option\n';
-
+  let selectHTML = '<option value="" disabled selected>Select currency</option>\n';   
+  
   for (let currencyAbbrev in exchangeRates.rates) {
-    selectHTML += '<option value="' + currencyAbbrev + '">' + allCurrencies[currencyAbbrev] + ' (' + currencyAbbrev + ')</option>\n';
+     selectHTML += '<option value="' + currencyAbbrev + '">' + allCurrencies[currencyAbbrev] + ' (' + currencyAbbrev + ')</option>\n';
   }
 
   $("#toCurrency").html(selectHTML);
@@ -216,4 +230,5 @@ function updateRates() {
 $(function() {
   updateCurrencyDropdown();
   $("#updateRates").click(updateRates);
+  $("#toCurrency").change(convertCurrency);
 })
